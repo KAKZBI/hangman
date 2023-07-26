@@ -1,0 +1,5 @@
+What do you want to do:
+
+[1] => Start a new game
+[2] => Continue a saved game
+[3] => Exit
