@@ -1,0 +1,8 @@
+WELCOME TO THE HANGMAN GAME
+
+=> You are playing against the computer;
+=> You are trying to guess a random word chosen by the computer;
+=> the word has between 5 to 12 letters and you have 8 incorrect guesses;
+=> You are expected to guess only one letter at a time;
+=> You can decide to guess the whole word at any time;
+=> You can save a game or exit it at any time by typing 'save' or 'exit'.
