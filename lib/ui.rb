@@ -16,11 +16,14 @@ module Ui
     end
   end
   def show_random_number_info
-    puts "the word has #{word_pick.size} characters"
+    puts "The word has #{word_pick.size} characters"
     puts "#{word_guess}\n"
   end
   def get_user_guess
     print "Guess a  letter: "
     gets.chomp.downcase
+  end
+  def show_guessing_word
+    puts "\n#{word_guess.green}"
   end
 end
