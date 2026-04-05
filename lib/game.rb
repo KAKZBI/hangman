@@ -11,8 +11,28 @@ class Game
     @bad_guess = []
     @remaining_turns = 8
     @warning = ""
-      
   end
+
+  def word_guess
+        @word_guess.join("")
+    end
+    def reduce_remaining_turns
+        @remaining_turns -= 1
+    end
+    def bad_guess
+        @bad_guess.join(' ')
+    end
+    def word_found?
+        self.word_guess == @word_pick
+    end
+    def replace_char(char)
+        for i in 0...@word_guess.length
+            @word_guess[i] = char if @word_pick[i] == char
+        end
+    end
+    def add_bad_char(char)
+        @bad_guess.push(char) unless @bad_guess.include?(char)
+    end
 end
 
 g = Game.new
