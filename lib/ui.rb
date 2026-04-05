@@ -24,6 +24,10 @@ module Ui
     gets.chomp.downcase
   end
   def show_guessing_word
-    puts "\n#{word_guess.green}"
+    puts "\n#{word_guess.green}\n"
   end
+  def show_warning(message)
+    puts message
+  end
+  
 end

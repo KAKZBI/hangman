@@ -40,45 +40,39 @@ class Game
     until word_found? || remaining_turns.zero?
       input = get_user_guess
       break if input == "exit"
-      # if input == "save"
-      #   save_game
-      #   break
-      # end
+      if input == "save"
+        save_game
+        break
+      end
       
       if input == word_pick
         
         input.each_char{|char| replace_char(char)}
         
-        puts hangman.word_guess.green
+        show_guessing_word
    
       elsif input.length > 1
-        rest = hangman.reduce_remaining_turns
-        puts "Invalid answer"
-        puts
-        puts hangman.word_guess.green
-        puts 
-        puts "Incorrect guesses: #{hangman.bad_guess.yellow}" if hangman.bad_guess.length > 0    
-        puts hangman.send_warning(rest)
-      else
-        if hangman.word_pick.include?(input)
-                hangman.replace_char(input) 
-                # hangman.clear_screen
-                puts 
-                puts hangman.word_guess.green
-                puts
-                # p "incorrect guesses: #{hangman.bad_guess}"
-            else
-                rest = hangman.reduce_remaining_turns
-                hangman.add_bad_char(input)
-                puts 
-                puts hangman.word_guess.green
-                puts
-                
-            end
-            if hangman.bad_guess.length > 0
+        # reduce_remaining_turns
+        # puts "Invalid answer"
+        # puts
+        # puts hangman.word_guess.green
+        # puts 
+        # puts "Incorrect guesses: #{hangman.bad_guess.yellow}" if hangman.bad_guess.length > 0    
+        # puts hangman.send_warning(rest)
+        raise InvalidWordLengthError
+      elsif input.length == 1
+        if word_pick.include?(input)
+            replace_char(input) 
+            show_guessing_word
+        else
+          reduce_remaining_turns
+          add_bad_char(input)
+          show_guessing_word
+        end
+        if bad_guess.length > 0
                 puts "Incorrect guesses: #{hangman.bad_guess.yellow}" 
                 puts hangman.send_warning(rest) unless hangman.word_found?
-            end
+        end
             
             puts
         end
