@@ -12,6 +12,13 @@ class PermanentFailureError < HangmanError
   end
 end
 
+#Raised when a player makes a bad choice
+class BadGameChoice < HangmanError
+  def initialize(msg = "Invalid game choice")
+    super(msg)
+  end
+end
+
 # Raised when a player attempts to guess the full word, but the
 # string length doesn't match the target word's length.
 class InvalidWordLengthError < HangmanError

@@ -14,27 +14,41 @@ class Game
   end
 
   def word_guess
-        @word_guess.join("")
+    @word_guess.join("")
+  end
+  def reduce_remaining_turns
+    @remaining_turns -= 1
+  end
+  def bad_guess
+    @bad_guess.join(' ')
+  end
+  def word_found?
+    self.word_guess == @word_pick
+  end
+  def replace_char(char)
+    for i in 0...@word_guess.length
+      @word_guess[i] = char if @word_pick[i] == char
     end
-    def reduce_remaining_turns
-        @remaining_turns -= 1
+  end
+  def add_bad_char(char)
+    @bad_guess.push(char) unless @bad_guess.include?(char)
+  end
+  def get_user_choice
+    max_retries = 3
+    valid_choices = ['1', '2', '3', 'start', 'continue', 'exit']
+    begin
+      puts File.read('choice.txt')
+      choice = gets.chomp.downcase
+      raise BadGameChoice unless valid_choices.include?(choice)
+    rescue BadGameChoice => e
+      max_retries -= 1
+      puts "#{e.message} - #{max_retries} left"
+      retry unless max_retries.zero?
+      raise PermanentFailureError 
     end
-    def bad_guess
-        @bad_guess.join(' ')
-    end
-    def word_found?
-        self.word_guess == @word_pick
-    end
-    def replace_char(char)
-        for i in 0...@word_guess.length
-            @word_guess[i] = char if @word_pick[i] == char
-        end
-    end
-    def add_bad_char(char)
-        @bad_guess.push(char) unless @bad_guess.include?(char)
-    end
+  end
 end
-
 g = Game.new
 puts g.word_pick
 p g.word_guess
+g.get_user_choice
