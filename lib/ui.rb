@@ -13,4 +13,8 @@ module Ui
       raise PermanentFailureError 
     end
   end
+  def show_random_number_info
+    puts "the word has #{word_pick.size} characters"
+    puts "#{word_guess}\n"
+  end
 end

@@ -35,7 +35,12 @@ class Game
   def add_bad_char(char)
     @bad_guess.push(char) unless @bad_guess.include?(char)
   end
-  
+  def run 
+    show_random_number_info
+    until word_found? || remaining_turns.zero?
+      
+    end
+  end
 end
 g = Game.new
 puts g.word_pick
