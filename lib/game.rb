@@ -1,8 +1,10 @@
 require_relative 'dictionnary'
 require_relative 'errors'
+require_relative 'ui'
 
 class Game
   include Dictionary
+  include Ui
   attr_accessor :dictionary_path, :word_pick, :remaining_turns, :word_guess, :bad_guess, :warning
   def initialize
     @dictionary_path = 'dictionary.txt'
@@ -33,20 +35,7 @@ class Game
   def add_bad_char(char)
     @bad_guess.push(char) unless @bad_guess.include?(char)
   end
-  def get_user_choice
-    max_retries = 3
-    valid_choices = ['1', '2', '3', 'start', 'continue', 'exit']
-    begin
-      puts File.read('choice.txt')
-      choice = gets.chomp.downcase
-      raise BadGameChoice unless valid_choices.include?(choice)
-    rescue BadGameChoice => e
-      max_retries -= 1
-      puts "#{e.message} - #{max_retries} left"
-      retry unless max_retries.zero?
-      raise PermanentFailureError 
-    end
-  end
+  
 end
 g = Game.new
 puts g.word_pick
