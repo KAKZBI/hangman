@@ -90,7 +90,3 @@ class String
     #     "\e[7m#{self}\e[27m"
     #   end
 end
-
-# table = "my love"
-# puts table.red.bg_white
-# puts "\u2b24"

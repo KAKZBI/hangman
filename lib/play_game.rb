@@ -5,8 +5,8 @@ def play_hangman(hangman)
     puts "the word has #{hangman.word_pick.size} characters"
     puts hangman.word_guess
     puts
-    # puts hangman.word_pick
-    while hangman.word_found? ==false && hangman.remaining_turns > 0
+  
+    while hangman.word_found? == false && hangman.remaining_turns > 0
         print "Guess a  letter: "
         input = gets.chomp.downcase
         puts

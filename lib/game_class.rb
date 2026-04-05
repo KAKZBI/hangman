@@ -1,6 +1,6 @@
 require_relative "monkey_patch.rb"
 
-$dictionnary = File.readlines('google-10000-english-no-swears.txt')
+$dictionnary = File.readlines('dictionary.txt')
 $game_dictionnary = $dictionnary.filter{|word| word.size > 5 && word.size <=13}
                                 .map{|word| word[0...word.size-1]}#remove the \n at the back
 
@@ -74,7 +74,7 @@ class Game
             2=>"Only 2 incorrect guesses left".red,
             1=>"Last chance".red
         }[turns]
-        end
+    end
     def clear_screen
         system('clear') || system('cls')
     end

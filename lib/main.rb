@@ -35,10 +35,7 @@
                     game_to_load = game if game_to_load.to_i == index + 1
                 end
                 Dir.chdir('saved_games') do
-                    # puts Dir.pwd
                     hangman = File.read(game_to_load)
-                    # p hangman
-                    # p hangman.class
                     game_to_load = Game.load_a_game(hangman)
                 end
                 play_hangman(game_to_load) 
