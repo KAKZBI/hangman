@@ -29,5 +29,7 @@ module Ui
   def show_warning(message)
     puts message
   end
-  
+  def show_bad_guesses 
+    puts "Incorrect guesses: #{bad_guess.yellow}"
+  end
 end
