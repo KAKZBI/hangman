@@ -1,3 +1,5 @@
+require 'colorize'
+
 module Ui
   def get_user_choice
     max_retries = 3
@@ -16,5 +18,9 @@ module Ui
   def show_random_number_info
     puts "the word has #{word_pick.size} characters"
     puts "#{word_guess}\n"
+  end
+  def get_user_guess
+    print "Guess a  letter: "
+    gets.chomp.downcase
   end
 end
