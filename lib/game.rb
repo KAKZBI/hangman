@@ -1,10 +1,12 @@
 require_relative 'dictionnary'
 require_relative 'exceptions'
 require_relative 'game_ui'
+require_relative 'save_manager'
 
 class Game
   include Dictionary
   include GameUi
+  include SaveManager
   attr_accessor :dictionary_path, :word_pick, :remaining_turns, :word_guess, :bad_guess, :warning
   def initialize
     @dictionary_path = 'dictionary.txt'
@@ -41,10 +43,11 @@ class Game
       begin
         input = get_user_guess
         raise ExitGameSignal if input == "exit"
-        if input == "save"
-          save_game
-          break
-        end
+        raise SaveGameSignal if input == 'save'
+        # if input == "save"
+        #   save_game
+        #   break
+        # end
         
         if input == word_pick
           
