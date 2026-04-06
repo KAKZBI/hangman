@@ -1,10 +1,10 @@
-require_relative 'dictionnary'
+# require_relative 'dictionary'
 require_relative 'exceptions'
 require_relative 'game_ui'
 require_relative 'save_manager'
 
 class Game
-  include Dictionary
+  # include Dictionary
   include GameUi
   include SaveManager
   attr_accessor :dictionary_path, :word_pick, :remaining_turns, :word_guess, :bad_guess, :warning
