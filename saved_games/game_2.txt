@@ -1,0 +1,17 @@
+---
+:word_pick: gender
+:word_guess:
+- _
+- e
+- "n"
+- _
+- e
+- _
+:bad_guess:
+- t
+- l
+- m
+- c
+- b
+:remaining_turns: 2
+:warning: "\e[0;31;49mOnly 2 incorrect guesses left\e[0m"
