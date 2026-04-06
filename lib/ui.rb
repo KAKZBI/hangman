@@ -33,13 +33,13 @@ module Ui
     puts "Incorrect guesses: #{bad_guess.yellow}"
   end
   def show_error_message(error)
-    puts error.message
+    puts "\n#{error.message.red}"
   end
   def display_results
-    if word_found? 
+    if won?
         puts "\nCongratulations! You have won the game"
     else
-        puts "\nSorry, you lost the game. the word was #{hangman.word_pick.yellow}."
+        puts "\nSorry, you lost the game. the word was #{word_pick.yellow}."
     end
   end
 end

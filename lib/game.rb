@@ -53,15 +53,9 @@ class Game
           show_guessing_word
     
         elsif input.length > 1
-          # reduce_remaining_turns
-          # puts "Invalid answer"
-          # puts
-          # puts hangman.word_guess.green
-          # puts 
-          # puts "Incorrect guesses: #{hangman.bad_guess.yellow}" if hangman.bad_guess.length > 0    
-          # puts hangman.send_warning(rest)
           raise InvalidWordLengthError
         elsif input.length == 1
+          raise DuplicateGuessError if bad_guess.include?(input) || word_guess.include?(input)
           if word_pick.include?(input)
               replace_char(input) 
               show_guessing_word
@@ -78,6 +72,14 @@ class Game
       rescue InvalidWordLengthError => e 
         reduce_remaining_turns
         show_error_message(e)
+        show_guessing_word
+        show_bad_guesses if bad_guess.length > 0
+        next
+      rescue DuplicateGuessError => e  
+        reduce_remaining_turns
+        show_error_message(e)
+        show_warning(send_warning(@remaining_turns))
+        show_guessing_word
         show_bad_guesses if bad_guess.length > 0
         next
       end
@@ -96,7 +98,7 @@ class Game
         }[turns]
   end
   def won?
-    
+    word_found?
   end
 end
 g = Game.new
@@ -104,3 +106,4 @@ g = Game.new
 # p g.word_guess
 # g.get_user_choice
 g.run
+g.display_results
