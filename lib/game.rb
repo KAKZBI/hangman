@@ -72,7 +72,7 @@ class Game
           end
           if bad_guess.length > 0
                   show_bad_guesses 
-                  show_warning(send_warning(@remaining_turns)) unless hangman.word_found?
+                  show_warning(send_warning(@remaining_turns)) unless word_found?
           end
         end
       rescue InvalidWordLengthError => e 
@@ -83,8 +83,24 @@ class Game
       end
     end
   end
+  def send_warning(turns)
+        @warning = {
+            8=>"Welcome to hangman",
+            7=>"You still have 7 incorrect guesses",
+            6=>"You still have 6 incorrect guesses",
+            5=>"You still have 5 incorrect guesses",
+            4=>"You still have 4 incorrect guesses",
+            3=>"Caution. You still have only 3 incorrect guesses".red,
+            2=>"Only 2 incorrect guesses left".red,
+            1=>"Last chance".red
+        }[turns]
+  end
+  def won?
+    
+  end
 end
 g = Game.new
-puts g.word_pick
-p g.word_guess
-g.get_user_choice
+# puts g.word_pick
+# p g.word_guess
+# g.get_user_choice
+g.run

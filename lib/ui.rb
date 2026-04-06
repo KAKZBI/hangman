@@ -35,5 +35,11 @@ module Ui
   def show_error_message(error)
     puts error.message
   end
-  
+  def display_results
+    if word_found? 
+        puts "\nCongratulations! You have won the game"
+    else
+        puts "\nSorry, you lost the game. the word was #{hangman.word_pick.yellow}."
+    end
+  end
 end
