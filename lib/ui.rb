@@ -1,6 +1,6 @@
 require 'colorize'
 
-module Ui
+module GameUi
   def get_user_choice
     max_retries = 3
     valid_choices = ['1', '2', '3', 'start', 'continue', 'exit']
@@ -41,5 +41,8 @@ module Ui
     else
         puts "\nSorry, you lost the game. the word was #{word_pick.yellow}."
     end
+  end
+  def self.describe_hangman
+    puts File.read("describe_hangman.txt")
   end
 end

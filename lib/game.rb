@@ -1,10 +1,10 @@
 require_relative 'dictionnary'
-require_relative 'errors'
-require_relative 'ui'
+require_relative 'exceptions'
+require_relative 'game_ui'
 
 class Game
   include Dictionary
-  include Ui
+  include GameUi
   attr_accessor :dictionary_path, :word_pick, :remaining_turns, :word_guess, :bad_guess, :warning
   def initialize
     @dictionary_path = 'dictionary.txt'
@@ -40,7 +40,7 @@ class Game
     until word_found? || remaining_turns.zero?
       begin
         input = get_user_guess
-        break if input == "exit"
+        raise ExitGameSignal if input == "exit"
         if input == "save"
           save_game
           break
@@ -101,9 +101,9 @@ class Game
     word_found?
   end
 end
-g = Game.new
-# puts g.word_pick
-# p g.word_guess
-# g.get_user_choice
-g.run
-g.display_results
+# g = Game.new
+# # puts g.word_pick
+# # p g.word_guess
+# # g.get_user_choice
+# g.run
+# g.display_results
