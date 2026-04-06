@@ -8,8 +8,8 @@ class Game
   include GameUi
   include SaveManager
   attr_accessor :dictionary_path, :word_pick, :remaining_turns, :word_guess, :bad_guess, :warning
-  def initialize
-    @dictionary_path = 'dictionary.txt'
+  def initialize(random_word)
+    # @dictionary_path = 'dictionary.txt'
     @word_pick = random_word
     @word_guess =Array.new(@word_pick.length, "_")
     @bad_guess = []
@@ -44,13 +44,7 @@ class Game
         input = get_user_guess
         raise ExitGameSignal if input == "exit"
         raise SaveGameSignal if input == 'save'
-        # if input == "save"
-        #   save_game
-        #   break
-        # end
-        
-        if input == word_pick
-          
+        if input == word_pick 
           input.each_char{|char| replace_char(char)}
           
           show_guessing_word
@@ -104,9 +98,3 @@ class Game
     word_found?
   end
 end
-# g = Game.new
-# # puts g.word_pick
-# # p g.word_guess
-# # g.get_user_choice
-# g.run
-# g.display_results
