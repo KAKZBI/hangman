@@ -38,44 +38,49 @@ class Game
   def run 
     show_random_number_info
     until word_found? || remaining_turns.zero?
-      input = get_user_guess
-      break if input == "exit"
-      if input == "save"
-        save_game
-        break
-      end
-      
-      if input == word_pick
+      begin
+        input = get_user_guess
+        break if input == "exit"
+        if input == "save"
+          save_game
+          break
+        end
         
-        input.each_char{|char| replace_char(char)}
-        
-        show_guessing_word
-   
-      elsif input.length > 1
-        # reduce_remaining_turns
-        # puts "Invalid answer"
-        # puts
-        # puts hangman.word_guess.green
-        # puts 
-        # puts "Incorrect guesses: #{hangman.bad_guess.yellow}" if hangman.bad_guess.length > 0    
-        # puts hangman.send_warning(rest)
-        raise InvalidWordLengthError
-      elsif input.length == 1
-        if word_pick.include?(input)
-            replace_char(input) 
-            show_guessing_word
-        else
-          reduce_remaining_turns
-          add_bad_char(input)
+        if input == word_pick
+          
+          input.each_char{|char| replace_char(char)}
+          
           show_guessing_word
+    
+        elsif input.length > 1
+          # reduce_remaining_turns
+          # puts "Invalid answer"
+          # puts
+          # puts hangman.word_guess.green
+          # puts 
+          # puts "Incorrect guesses: #{hangman.bad_guess.yellow}" if hangman.bad_guess.length > 0    
+          # puts hangman.send_warning(rest)
+          raise InvalidWordLengthError
+        elsif input.length == 1
+          if word_pick.include?(input)
+              replace_char(input) 
+              show_guessing_word
+          else
+            reduce_remaining_turns
+            add_bad_char(input)
+            show_guessing_word
+          end
+          if bad_guess.length > 0
+                  show_bad_guesses 
+                  show_warning(send_warning(@remaining_turns)) unless hangman.word_found?
+          end
         end
-        if bad_guess.length > 0
-                puts "Incorrect guesses: #{hangman.bad_guess.yellow}" 
-                puts hangman.send_warning(rest) unless hangman.word_found?
-        end
-            
-            puts
-        end
+      rescue InvalidWordLengthError => e 
+        reduce_remaining_turns
+        show_error_message(e)
+        show_bad_guesses if bad_guess.length > 0
+        next
+      end
     end
   end
 end

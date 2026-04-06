@@ -32,4 +32,8 @@ module Ui
   def show_bad_guesses 
     puts "Incorrect guesses: #{bad_guess.yellow}"
   end
+  def show_error_message(error)
+    puts error.message
+  end
+  
 end
