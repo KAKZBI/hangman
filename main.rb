@@ -26,7 +26,6 @@ loop do
   rescue PermanentFailureError => e
     Display::show_message(e.message)
     exit
-  # else
   rescue SaveGameSignal => e
     hangman.save_game
     Display::show_save_sequence

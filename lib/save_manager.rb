@@ -33,24 +33,52 @@ module SaveManager
         game
   end
 
+  # def self.continue_game
+  #   if !Dir.exist?('saved_games') || Dir.children('saved_games').length ==0
+  #     puts "Sorry, there are no saved games"
+  #   else
+  #     puts "Saved games:"
+  #     Dir.children('saved_games').each_with_index do |game, index|
+  #       puts "[#{index + 1}]  #{game}"
+  #     end
+  #     print "Which game do you want to open - select the number ? "
+  #     selected_file = gets.chomp
+  #     puts
+  #     Dir.children('saved_games').each_with_index do |game, index|
+  #       selected_file = game if selected_file.to_i == index + 1
+  #     end
+  #     Dir.chdir('saved_games') do
+  #       hangman_string = File.read(selected_file)
+  #       selected_file = load_a_game(hangman_string)
+  #     end
+  #   end
+  # end
   def self.continue_game
-    if !Dir.exist?('saved_games') || Dir.children('saved_games').length ==0
-      puts "Sorry, there are no saved games"
+    # Fetch and sort the files (newest first)
+    saved_files = Dir.glob("saved_games/*.txt").sort_by { |file| File.mtime(file) }.reverse
+
+    GameUi.show_saved_files_menu(saved_files)
+
+    choice = gets.chomp.downcase
+    
+    raise ExitGameSignal if choice == 'exit'
+    
+    # Convert input to integer and get the correct file index
+    file_index = choice.to_i - 1
+    
+    if file_index >= 0 && file_index < saved_files.length
+      selected_file = saved_files[file_index]
+      
+      # We just read the file directly since selected_file is "saved_games/game_X.txt"
+      hangman_string = File.read(selected_file)
+    
+      # We return the game object to main.rb
+      return load_a_game(hangman_string)
     else
-      puts "Saved games:"
-      Dir.children('saved_games').each_with_index do |game, index|
-        puts "[#{index + 1}]  #{game}"
-      end
-      print "Which game do you want to open - select the number ? "
-      game_to_load = gets.chomp
-      puts
-      Dir.children('saved_games').each_with_index do |game, index|
-        game_to_load = game if game_to_load.to_i == index + 1
-      end
-      Dir.chdir('saved_games') do
-        hangman_string = File.read(game_to_load)
-        game_to_load = load_a_game(hangman_string)
-      end
+      # If they type a number that doesn't exist, we just restart the menu.
+      puts " ✗ Invalid Session ID.".red
+      sleep(1)
+      continue_game # recursively try again
     end
   end
 end

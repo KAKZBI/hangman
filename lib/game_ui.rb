@@ -92,4 +92,36 @@ module GameUi
     puts " SECURITY BREACH IN: ".bold + "#{remaining_turns} attempts".send(turn_color)
     puts " ================================================\n".cyan.bold
   end
+  def self.show_saved_files_menu(saved_files)
+    system('clear') || system('cls')
+    puts "\n"
+    puts " ================= ARCHIVE RETRIEVAL =================".cyan.bold
+    puts "\n"
+    print " ⏳ SCANNING DATABANKS".blue
+    3.times { print ".".blue; sleep(0.2) }
+    puts "\n\n"
+
+    if saved_files.empty?
+      puts " [!] No archived sessions found in the mainframe.".red
+      puts "\n ===================================================\n".cyan.bold
+      return
+    end
+
+    # Display each file with a formatted name and timestamp
+    saved_files.each_with_index do |file, index|
+      # Turns "saves/game_3.txt" into "GAME 3"
+      display_name = File.basename(file, ".*").gsub("_", " ").upcase 
+      
+      # Formats the time perfectly: "2026-04-07 14:30"
+      time_saved = File.mtime(file).strftime("%Y-%m-%d %H:%M")
+
+      puts " [#{ (index + 1).to_s.green }] ".bold + 
+           "SESSION: ".blue + display_name.ljust(12).bold + 
+           " | ".yellow + 
+           "ARCHIVED: ".blue + time_saved
+    end
+
+    puts "\n ===================================================\n".cyan.bold
+    print " Enter session ID to restore, or 'exit' to abort ❯ ".magenta.bold
+  end
 end
