@@ -1,0 +1,17 @@
+---
+:word_pick: metric
+:word_guess:
+- m
+- e
+- _
+- r
+- i
+- _
+:bad_guess:
+- l
+- o
+- a
+- "n"
+- b
+:remaining_turns: 3
+:warning: ''

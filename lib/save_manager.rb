@@ -51,7 +51,6 @@ module SaveManager
         hangman_string = File.read(game_to_load)
         game_to_load = load_a_game(hangman_string)
       end
-      # play_hangman(game_to_load) 
     end
   end
 end

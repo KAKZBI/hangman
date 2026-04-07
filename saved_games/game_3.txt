@@ -1,0 +1,20 @@
+---
+:word_pick: sapphire
+:word_guess:
+- s
+- a
+- p
+- p
+- _
+- i
+- _
+- e
+:bad_guess:
+- "n"
+- m
+- c
+- b
+- u
+- o
+:remaining_turns: 2
+:warning: ''

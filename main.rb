@@ -21,7 +21,7 @@ loop do
       hangman.display_results
     end
   rescue ExitGameSignal => e  
-    Display.show_message("Thanks for playing!")
+    Display.show_exit_sequence
     exit
   rescue PermanentFailureError => e
     Display::show_message(e.message)
@@ -29,6 +29,7 @@ loop do
   # else
   rescue SaveGameSignal => e
     hangman.save_game
+    Display::show_save_sequence
     exit
   end
 end

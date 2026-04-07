@@ -55,4 +55,25 @@ module Display
   def self.show_message(message)
     puts message
   end
+
+  def self.show_save_sequence
+    system('clear') || system('cls')
+    puts "\n"
+    print " ⏳ Encrypting current game state".blue
+    3.times { print ".".blue; sleep(0.3) }
+    puts "\n\n"
+    puts " ✔ Data safely archived in the mainframe.".green.bold
+    puts " Your progress has been frozen in time. You may resume when ready.\n\n".cyan.italic
+  end
+
+  def self.show_exit_sequence
+    system('clear') || system('cls')
+    puts "\n"
+    print " ⚠ Initiating shutdown sequence".red
+    3.times { print ".".red; sleep(0.3) }
+    puts "\n\n"
+    puts " Terminating active session...".yellow
+    sleep(0.5)
+    puts " Connection severed. The terminal awaits your return.\n\n".cyan.italic
+  end
 end

@@ -37,51 +37,55 @@ class Game
   def add_bad_char(char)
     @bad_guess.push(char) unless @bad_guess.include?(char)
   end
-  def run 
-    show_random_number_info
-    until word_found? || remaining_turns.zero?
-      begin
-        input = get_user_guess
-        raise ExitGameSignal if input == "exit"
-        raise SaveGameSignal if input == 'save'
-        if input == word_pick 
-          input.each_char{|char| replace_char(char)}
+  # def run 
+  #   show_random_number_info
+  #   until word_found? || remaining_turns.zero?
+  #     begin
+  #       input = get_user_guess
+  #       raise ExitGameSignal if input == "exit"
+  #       raise SaveGameSignal if input == 'save'
+  #       if input == word_pick 
+  #         input.each_char{|char| replace_char(char)}
           
-          show_guessing_word
+  #         # show_guessing_word
+  #         show_game_status(word_guess, bad_guess, remaining_turns)
     
-        elsif input.length > 1
-          raise InvalidWordLengthError
-        elsif input.length == 1
-          raise DuplicateGuessError if bad_guess.include?(input) || word_guess.include?(input)
-          if word_pick.include?(input)
-              replace_char(input) 
-              show_guessing_word
-          else
-            reduce_remaining_turns
-            add_bad_char(input)
-            show_guessing_word
-          end
-          if bad_guess.length > 0
-                  show_bad_guesses 
-                  show_warning(send_warning(@remaining_turns)) unless word_found?
-          end
-        end
-      rescue InvalidWordLengthError => e 
-        reduce_remaining_turns
-        show_error_message(e)
-        show_guessing_word
-        show_bad_guesses if bad_guess.length > 0
-        next
-      rescue DuplicateGuessError => e  
-        reduce_remaining_turns
-        show_error_message(e)
-        show_warning(send_warning(@remaining_turns))
-        show_guessing_word
-        show_bad_guesses if bad_guess.length > 0
-        next
-      end
-    end
-  end
+  #       elsif input.length > 1
+  #         raise InvalidWordLengthError
+  #       elsif input.length == 1
+  #         raise DuplicateGuessError if bad_guess.include?(input) || word_guess.include?(input)
+  #         if word_pick.include?(input)
+  #             replace_char(input) 
+  #             # show_guessing_word
+  #             show_game_status(word_guess, bad_guess, remaining_turns)
+  #         else
+  #           reduce_remaining_turns
+  #           add_bad_char(input)
+  #           # show_guessing_word
+  #           show_game_status(word_guess, bad_guess, remaining_turns)
+  #         end
+  #         # if bad_guess.length > 0
+  #         #         show_bad_guesses 
+  #         #         show_warning(send_warning(@remaining_turns)) unless word_found?
+  #         # end
+  #       end
+  #     rescue InvalidWordLengthError => e 
+  #       reduce_remaining_turns
+  #       show_error_message(e)
+  #       show_guessing_word
+  #       show_bad_guesses if bad_guess.length > 0
+  #       next
+  #     rescue DuplicateGuessError => e  
+  #       reduce_remaining_turns
+  #       show_error_message(e)
+  #       # show_warning(send_warning(@remaining_turns))
+  #       # show_guessing_word
+  #       # show_bad_guesses if bad_guess.length > 0
+  #       show_game_status(word_guess, bad_guess, remaining_turns)
+  #       next
+  #     end
+  #   end
+  # end
   def send_warning(turns)
         @warning = {
             8=>"Welcome to hangman",
@@ -93,6 +97,50 @@ class Game
             2=>"Only 2 incorrect guesses left".red,
             1=>"Last chance".red
         }[turns]
+  end
+  def run 
+    show_initializing_session # Delegated to GameUi
+
+    until word_found? || remaining_turns.zero?
+      # Notice we call this on the Module itself since you defined it as self.show_game_status
+      GameUi.show_game_status(word_guess, bad_guess, remaining_turns)
+      
+      begin
+        input = get_user_guess # Delegated to GameUi
+        
+        raise ExitGameSignal if input == "exit"
+        raise SaveGameSignal if input == "save"
+
+        if input == word_pick 
+          input.each_char { |char| replace_char(char) }
+          # No need to show "access granted" here because the loop will break and trigger display_results
+          
+        elsif input.length > 1
+          raise InvalidWordLengthError
+          
+        elsif input.length == 1
+          if bad_guess.include?(input) || word_guess.include?(input)
+            raise DuplicateGuessError 
+          end
+
+          if word_pick.include?(input)
+            replace_char(input)
+            show_access_granted # Delegated to GameUi
+          else
+            reduce_remaining_turns
+            add_bad_char(input)
+            show_access_denied # Delegated to GameUi
+          end
+        end
+
+      rescue InvalidWordLengthError, DuplicateGuessError => e
+        reduce_remaining_turns
+        show_security_alert(e) # Delegated to GameUi
+        next 
+      end
+    end
+    
+    GameUi.show_game_status(word_guess, bad_guess, remaining_turns)
   end
   def won?
     word_found?
