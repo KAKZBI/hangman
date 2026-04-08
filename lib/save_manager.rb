@@ -70,7 +70,7 @@ module SaveManager
       # We return the game object to main.rb
       load_a_game(hangman_string)
     else
-      # If they type a number that doesn't exist, we just restart the menu.
+      # If the user types a number that doesn't exist, we just restart the menu.
       puts ' ✗ Invalid Session ID.'.red
       sleep(1)
       continue_game # recursively try again

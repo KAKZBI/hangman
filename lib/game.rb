@@ -36,83 +36,23 @@ class Game
   end
 
   def replace_char(char)
-    for i in 0...@word_guess.length
-      @word_guess[i] = char if @word_pick[i] == char
+    @word_pick.each_char.with_index do |target_char, index|
+      @word_guess[index] = char if target_char == char
     end
   end
 
   def add_bad_char(char)
     @bad_guess.push(char) unless @bad_guess.include?(char)
   end
-  # def run
-  #   show_random_number_info
-  #   until word_found? || remaining_turns.zero?
-  #     begin
-  #       input = get_user_guess
-  #       raise ExitGameSignal if input == "exit"
-  #       raise SaveGameSignal if input == 'save'
-  #       if input == word_pick
-  #         input.each_char{|char| replace_char(char)}
 
-  #         # show_guessing_word
-  #         show_game_status(word_guess, bad_guess, remaining_turns)
-
-  #       elsif input.length > 1
-  #         raise InvalidWordLengthError
-  #       elsif input.length == 1
-  #         raise DuplicateGuessError if bad_guess.include?(input) || word_guess.include?(input)
-  #         if word_pick.include?(input)
-  #             replace_char(input)
-  #             # show_guessing_word
-  #             show_game_status(word_guess, bad_guess, remaining_turns)
-  #         else
-  #           reduce_remaining_turns
-  #           add_bad_char(input)
-  #           # show_guessing_word
-  #           show_game_status(word_guess, bad_guess, remaining_turns)
-  #         end
-  #         # if bad_guess.length > 0
-  #         #         show_bad_guesses
-  #         #         show_warning(send_warning(@remaining_turns)) unless word_found?
-  #         # end
-  #       end
-  #     rescue InvalidWordLengthError => e
-  #       reduce_remaining_turns
-  #       show_error_message(e)
-  #       show_guessing_word
-  #       show_bad_guesses if bad_guess.length > 0
-  #       next
-  #     rescue DuplicateGuessError => e
-  #       reduce_remaining_turns
-  #       show_error_message(e)
-  #       # show_warning(send_warning(@remaining_turns))
-  #       # show_guessing_word
-  #       # show_bad_guesses if bad_guess.length > 0
-  #       show_game_status(word_guess, bad_guess, remaining_turns)
-  #       next
-  #     end
-  #   end
-  # end
-  # def send_warning(turns)
-  #       @warning = {
-  #           8=>"Welcome to hangman",
-  #           7=>"You still have 7 incorrect guesses",
-  #           6=>"You still have 6 incorrect guesses",
-  #           5=>"You still have 5 incorrect guesses",
-  #           4=>"You still have 4 incorrect guesses",
-  #           3=>"Caution. You still have only 3 incorrect guesses".red,
-  #           2=>"Only 2 incorrect guesses left".red,
-  #           1=>"Last chance".red
-  #       }[turns]
-  # end
   def run
-    show_initializing_session # Delegated to GameUi
+    show_initializing_session
 
     until word_found? || remaining_turns.zero?
       GameUi.show_game_status(word_guess, bad_guess, remaining_turns)
 
       begin
-        input = get_user_guess # Delegated to GameUi
+        input = get_user_guess
 
         raise ExitGameSignal if input == 'exit'
         raise SaveGameSignal if input == 'save'
@@ -128,16 +68,16 @@ class Game
 
           if word_pick.include?(input)
             replace_char(input)
-            show_access_granted # Delegated to GameUi
+            show_access_granted
           else
             reduce_remaining_turns
             add_bad_char(input)
-            show_access_denied # Delegated to GameUi
+            show_access_denied
           end
         end
       rescue InvalidWordLengthError, DuplicateGuessError => e
         reduce_remaining_turns
-        show_security_alert(e) # Delegated to GameUi
+        show_security_alert(e)
         next
       end
     end
