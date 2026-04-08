@@ -86,23 +86,22 @@ class Game
   #     end
   #   end
   # end
-  def send_warning(turns)
-        @warning = {
-            8=>"Welcome to hangman",
-            7=>"You still have 7 incorrect guesses",
-            6=>"You still have 6 incorrect guesses",
-            5=>"You still have 5 incorrect guesses",
-            4=>"You still have 4 incorrect guesses",
-            3=>"Caution. You still have only 3 incorrect guesses".red,
-            2=>"Only 2 incorrect guesses left".red,
-            1=>"Last chance".red
-        }[turns]
-  end
+  # def send_warning(turns)
+  #       @warning = {
+  #           8=>"Welcome to hangman",
+  #           7=>"You still have 7 incorrect guesses",
+  #           6=>"You still have 6 incorrect guesses",
+  #           5=>"You still have 5 incorrect guesses",
+  #           4=>"You still have 4 incorrect guesses",
+  #           3=>"Caution. You still have only 3 incorrect guesses".red,
+  #           2=>"Only 2 incorrect guesses left".red,
+  #           1=>"Last chance".red
+  #       }[turns]
+  # end
   def run 
     show_initializing_session # Delegated to GameUi
 
     until word_found? || remaining_turns.zero?
-      # Notice we call this on the Module itself since you defined it as self.show_game_status
       GameUi.show_game_status(word_guess, bad_guess, remaining_turns)
       
       begin
@@ -113,7 +112,6 @@ class Game
 
         if input == word_pick 
           input.each_char { |char| replace_char(char) }
-          # No need to show "access granted" here because the loop will break and trigger display_results
           
         elsif input.length > 1
           raise InvalidWordLengthError

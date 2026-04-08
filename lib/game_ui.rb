@@ -12,21 +12,21 @@ module GameUi
     gets.chomp.downcase
   end
 
-  def show_guessing_word
-    puts "\n#{word_guess.green}\n"
-  end
+  # def show_guessing_word
+  #   puts "\n#{word_guess.green}\n"
+  # end
 
-  def show_warning(message)
-    puts message
-  end
+  # def show_warning(message)
+  #   puts message
+  # end
 
-  def show_bad_guesses 
-    puts "Incorrect guesses: #{bad_guess.yellow}"
-  end
+  # def show_bad_guesses 
+  #   puts "Incorrect guesses: #{bad_guess.yellow}"
+  # end
 
-  def show_error_message(error)
-    puts "\n#{error.message.red}"
-  end
+  # def show_error_message(error)
+  #   puts "\n#{error.message.red}"
+  # end
 
   def display_results
     if won?
@@ -69,12 +69,12 @@ module GameUi
     puts " ================= LIVE SESSION =================".cyan.bold
     puts "\n"
     
-    # 1. The Target Word (Spaced out for dramatic effect)
+    # The Target Word (Spaced out for dramatic effect)
     spaced_word = word_guess.chars.join(" ")
     puts " TARGET LOCK:   ".blue.bold + spaced_word.green.bold
     puts "\n"
     
-    # 2. The Intel Failures (Bad Guesses)
+    # The Intel Failures (Bad Guesses)
     if bad_guess.length > 0
       puts " INTEL FAILURES: ".red.bold + bad_guess.red 
     else
@@ -82,7 +82,7 @@ module GameUi
     end
     puts "\n"
     
-    # 3. The Countdown (Dynamic coloring based on danger level)
+    # The Countdown (Dynamic coloring based on danger level)
     turn_color = case remaining_turns
                  when 6..8 then :green
                  when 3..5 then :yellow

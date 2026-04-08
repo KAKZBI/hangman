@@ -21,15 +21,11 @@ module SaveManager
 
   def self.load_a_game(game_string)
         hash = YAML.load(game_string)
-        # p hash
         game = Game.new(hash[:word_pick])
-        # p game
-        # game.word_pick = hash[:word_pick]
         game.word_guess = hash[:word_guess]
         game.remaining_turns = hash[:remaining_turns]
         game.bad_guess = hash[:bad_guess]
         game.warning = hash[:warning]
-        # p game
         game
   end
 
@@ -63,7 +59,6 @@ module SaveManager
     
     raise ExitGameSignal if choice == 'exit'
     
-    # Convert input to integer and get the correct file index
     file_index = choice.to_i - 1
     
     if file_index >= 0 && file_index < saved_files.length

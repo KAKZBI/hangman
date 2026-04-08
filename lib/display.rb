@@ -5,7 +5,6 @@ module Display
     # puts File.read("describe_hangman.txt")
     system('clear') || system('cls')
     puts "\n"
-    # Using double backslashes \\ to escape the characters properly in Ruby strings
     puts " _   _                                         ".cyan.bold
     puts "| | | | __ _ _ __   __ _ _ __ ___   __ _ _ __  ".cyan.bold
     puts "| |_| |/ _` | '_ \\ / _` | '_ ` _ \\ / _` | '_ \\ ".cyan.bold
