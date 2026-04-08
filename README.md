@@ -28,10 +28,11 @@ You guess letters (or the whole word) against a random 5‑12 letter word.
 ## How to run it
 
 ```bash
-git clone https://github.com/yourusername/hangman
+git clone https://github.com/KAKZBI/hangman
 cd hangman
 bundle install
 ruby main.rb
+```
 
 ## What still nags me
 
